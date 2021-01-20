@@ -301,10 +301,15 @@ namespace FLORA.ui
 
             foreach (Sensor sen in myNetWork)
             {
-                double locationErrors = UnformRandomNumberGenerator.GetUniform(PublicParamerters.MaxLocationErrors);
-                double angle = UnformRandomNumberGenerator.GetUniform(Math.PI * 2);
-                double x = sen.CenterLocation.X + locationErrors * Math.Cos(angle);
-                double y = sen.CenterLocation.Y + locationErrors * Math.Sin(angle);
+                double x = RandomeNumberGenerator.GetNormal();
+                double y = RandomeNumberGenerator.GetNormal();
+                while (Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2)) > 1)
+                {
+                    x = RandomeNumberGenerator.GetNormal();
+                    y = RandomeNumberGenerator.GetNormal();
+                }
+                x = sen.CenterLocation.X + x * PublicParamerters.MaxLocationErrors;
+                y = sen.CenterLocation.Y + y * PublicParamerters.MaxLocationErrors;
                 Point pos = new Point(x, y);
                 sen.LocationErrors = pos;
             }

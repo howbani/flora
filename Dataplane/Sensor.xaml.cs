@@ -60,17 +60,9 @@ namespace FLORA.Dataplane
 
         public Weights Weights = new Weights();
 
-        /*
-         * SINR
-         */
-        //由于干扰而没发出去的包，(0-30ms)内重传，三次重传失败就丢弃这个数据包；
         private DispatcherTimer InterfereQueueTimer = new DispatcherTimer();
         public Queue<Packet> InterferePacketsQueue = new Queue<Packet>();
         public long LastSendPacketTime { get; set; }
-
-        /*
-         * PositioningErrors
-         */
         public Point LocationErrors { get; set; }
 
 
@@ -271,9 +263,6 @@ namespace FLORA.Dataplane
                         MainWindow.Dispatcher.Invoke(() => MainWindow.lbl_Number_of_Droped_Packet.Content = PublicParamerters.NumberofDropedPacket, DispatcherPriority.Send);
 
                     }
-                    /*
-                     * SINR
-                     */
                     while (this.InterferePacketsQueue.Count > 0)
                     {
                         PublicParamerters.NumberofDropedPacket += 1;
@@ -1082,7 +1071,7 @@ namespace FLORA.Dataplane
                     ResidualEnergy = this.ResidualEnergy - UsedEnergy_joule;
                     PublicParamerters.TotalEnergyConsumptionJoule += UsedEnergy_joule;
                     packt.UsedEnergy_Joule += UsedEnergy_joule;
-                    //packt.RoutingDistance += Distance_M;
+                    packt.RoutingDistance += Distance_M;
                     //packt.Hops += 1;
                     double delay = DelayModel.DelayModel.Delay(this, Reciver);
                     packt.Delay += delay;
